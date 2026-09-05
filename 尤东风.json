@@ -9,14 +9,14 @@
  "ext":"./lib/采集之王.js?type=url&params=./sub/采集静态.json$1$1"
 },
 {"key":"高清点播","name": "高清点播(js)","type":3,"searchable":1,"api":"./cat/gq.js"},
-{"key":"歪比巴卜","name": "歪比巴卜(js)","type":3,"searchable":1,"playerType":2,"api":"./cat/yb.js"},
+//{"key":"歪比巴卜","name": "歪比巴卜(js)","type":3,"searchable":1,"playerType":2,"api":"./cat/yb.js"},
 {"key": "AiBot","name": "爱看影视()","type": 3,"api": "csp_AiBotAmns","searchable": 1,"quickSearch": 1,"changeable": 0,
  "jar": "https://nos.netease.com/ysf/94fce0ad0fb002e36283e7beb2440f64.png;md5;c01dcf611c00ffadf8584263214da7f7"
 },
 {"key": "爱看影院","name": "爱看影院(py)","type": 3,"api": "./lib/AppToV5.py",
  "ext": "http://43.248.117.123:4680"
 },
-{"key":"py云朵影视","name": "云朵影视(py)","type":3,"searchable":1,"api":"./py/yunduo.py"},
+//{"key":"py云朵影视","name": "云朵影视(py)","type":3,"searchable":1,"api":"./py/yunduo.py"},
 { "key": "js_hulu", "name": "葫芦app(js)","type": 3, "api": "./lib/AppGet.js",
    "ext": {
                 "host": "http://v12-1-hulucms.nmgzxrl.com",
