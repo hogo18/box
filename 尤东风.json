@@ -5,7 +5,7 @@
 "sites":[
 {"key":"瓜子js","name":"尤东风自用接口💠他人请谨慎用之","type":3,"api":"./cat/瓜子.py","changeable":1,"filterable":1},
 {"key": "荐片app","name": "荐片影視(js)","type": 3,"api": "./sub/荐片.js","类型": "影視"},
-{"key": "dr_小山影视","name": "山楂影視(js)","type": 3,"api": "./cat/小山影视.js"},
+{"key": "dr_小山影视","name": "山楂影視(py)","type": 3,"api": "./py/山楂.py"},
 {"key": "咖啡","name": "咖啡4k(T4)","type": 4,"api": "http://8.134.205.252:39466/pz/co4k.php/api.php/provide/vod/?ac=list"},
 {"key":"未来影視","name":"未来4K影視","type":1,"api":"http://110.42.66.100:12678/api.php","searchable":1,"quickSearch":1,
  "playUrl":"json:http://110.42.66.100:5666/api/?key=c31bfd818ac47875ab4922f03834afcc&url="
