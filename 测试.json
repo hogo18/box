@@ -9,7 +9,7 @@
  "jar": "https://zl.wpscdn.cn/2026/06/27/space_img/c74367d2-81c1-4f87-b808-2441e95e99e4.png;md5;6d682c936700dce9d70d5aba69b7b95b"
 },
 {"key":"py_juhey","name":"霜镜秒播(PY)","type":3,"api":"./lib/AppToV5.py","ext":"http://43.248.117.123:4680"},
-{"key":"云朵影视/","name": "云朵影视(js)","type":3,"searchable":1,"api":"./cat/gq.js"},
+{"key":"云朵影视/","name": "云朵影视(js)","type":3,"searchable":1,"api":"https://gh-proxy.com/https://raw.githubusercontent.com/cluntop/tvbox/refs/heads/main/py/wbbb.py"},
 { "key":"IPTV直播","name": "IPTV直播","type": 3,"api": "./js/IPTV直播.js"},
 {"key": "咕噜APP", "name": "咕噜APP()","type": 3, "api": "csp_Gulu","searchable": 1,"filterable": 1},
 {"key": "哔嘀弹幕3","name": "缘觉弹幕3","type": 3,"api": "https://git.acwing.com/hogo18/hh/-/raw/main/cat/shijue.js"}
