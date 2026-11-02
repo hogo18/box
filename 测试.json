@@ -9,7 +9,7 @@
  "jar": "https://zl.wpscdn.cn/2026/06/27/space_img/c74367d2-81c1-4f87-b808-2441e95e99e4.png;md5;6d682c936700dce9d70d5aba69b7b95b"
 },
 {"key":"py_juhey","name":"霜镜秒播(PY)","type":3,"api":"./lib/AppToV5.py","ext":"http://43.248.117.123:4680"},
-{"key":"多多视频","name": "多多视频(js)","type":3,"searchable":1,"api":"./cat/dduo.js",
+{"key":"多多","name": "多多视频(js)","type":3,"searchable":1,"api":"./cat/dduo.js",
 	"ext": {
         "host": "https://duoduosdf12223234334.top",
                 "finger": "WF-2c064bc5b3400788f31b848849bc3a60f835423ba2dfe69d7ea93974c216e4f2",
