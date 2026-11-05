@@ -15,8 +15,10 @@
       "type": 3,
       "api": "csp_DongPian",
       "searchable": 1,
+	  "jar": "./jar/spider-1.jar",
       "filterable": 0
-    },
+	 
+},
 { "key":"IPTV直播","name": "IPTV直播","type": 3,"api": "./js/IPTV直播.js"},
 {"key": "咕噜APP", "name": "咕噜APP()","type": 3, "api": "csp_Gulu","searchable": 1,"filterable": 1},
 {"key": "哔嘀弹幕3","name": "缘觉弹幕3","type": 3,"api": "https://git.acwing.com/hogo18/hh/-/raw/main/cat/shijue.js"}
