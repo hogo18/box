@@ -9,20 +9,14 @@
  "jar": "https://zl.wpscdn.cn/2026/06/27/space_img/c74367d2-81c1-4f87-b808-2441e95e99e4.png;md5;6d682c936700dce9d70d5aba69b7b95b"
 },
 {"key":"py_juhey","name":"霜镜秒播(PY)","type":3,"api":"./lib/AppToV5.py","ext":"http://43.248.117.123:4680"},
-{"key":"多多","name": "多多视频(js)","type":3,"searchable":1,"api":"./cat/dduo.js",
-	"ext": {
-        "host": "https://duoduosdf12223234334.top",
-                "finger": "WF-2c064bc5b3400788f31b848849bc3a60f835423ba2dfe69d7ea93974c216e4f2",
-                "pkg": "com.web.player",
-                "sk": "WEB-50a8e9c84a1dc05669a692ded99a2dac46527229e607a7be15db88dbc59059d1",
-                "client": "8f3d2a1c7b6e5d4c9a0b1f2e3d4c5b6a",
-                "sign": "ddtvf65f3a83d6d9ad6f",
-                "updateId": "01a00b72-a18d-77ac-9921-9dbe96573441",
-                "ver": "7",
-                "deviceBrand": "vivo",
-        "deviceModel": "V2309A"
-      }
-},
+ {
+      "key": "DongPian",
+      "name": "懂片秒播()",
+      "type": 3,
+      "api": "csp_DongPian",
+      "searchable": 1,
+      "filterable": 0
+    },
 { "key":"IPTV直播","name": "IPTV直播","type": 3,"api": "./js/IPTV直播.js"},
 {"key": "咕噜APP", "name": "咕噜APP()","type": 3, "api": "csp_Gulu","searchable": 1,"filterable": 1},
 {"key": "哔嘀弹幕3","name": "缘觉弹幕3","type": 3,"api": "https://git.acwing.com/hogo18/hh/-/raw/main/cat/shijue.js"}
