@@ -71,6 +71,7 @@
 归来是故乡,http://mobi.kuwo.cn/tmevideo/tme1700466.mp4
 
 新闻综合,#genre#
+CCTV13,http://www.20260809.xyz:1234/608807423
 CCTV13,http://60.4.28.229:8077/rtp/239.253.92.13:8008$河北联通11
 CCTV13,http://107.150.60.122/live/cctv13hd.m3u8
 CCTV13,http://38.75.136.137:98/gslb/dsdqbv/cctv13hd.m3u8?auth=test20251009
@@ -137,6 +138,23 @@ CCTV13,http://60.4.28.229:8077/rtp/239.253.92.13:8008$河北联通11
 CCTV14,http://60.4.28.229:8077/rtp/239.253.92.198:6063$河北联通11
 CCTV15,http://60.4.28.229:8077/rtp/239.253.93.154:6322$河北联通11
 CCTV17,http://60.4.28.229:8077/rtp/239.253.93.150:6318$河北联通11
+CCTV1,http://www.20260809.xyz:1234/608807420
+CCTV2,http://www.20260809.xyz:1234/631780532
+CCTV3,http://www.20260809.xyz:1234/624878271
+CCTV4,http://www.20260809.xyz:1234/631780421
+CCTV5,http://www.20260809.xyz:1234/641886683
+CCTV5+,http://www.20260809.xyz:1234/641886773
+CCTV6,http://www.20260809.xyz:1234/624878396
+CCTV7,http://www.20260809.xyz:1234/673168121
+CCTV8,http://www.20260809.xyz:1234/624878356
+CCTV9,http://www.20260809.xyz:1234/673168140
+CCTV10,http://www.20260809.xyz:1234/624878405
+CCTV11,http://www.20260809.xyz:1234/667987558
+CCTV12,http://www.20260809.xyz:1234/673168185
+CCTV13,http://www.20260809.xyz:1234/608807423
+CCTV14,http://www.20260809.xyz:1234/624878440
+CCTV15,http://www.20260809.xyz:1234/673168223
+CCTV17,http://www.20260809.xyz:1234/673168256
 CCTV1,http://222.86.14.254:9999/tsfile/live/0001_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV2,http://222.86.14.254:9999/tsfile/live/0002_1.m3u8?key=txiptv&playlive=1&authid=0
 CCTV3,http://222.86.14.254:9999/tsfile/live/0003_1.m3u8?key=txiptv&playlive=1&authid=0
