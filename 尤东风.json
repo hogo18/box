@@ -66,7 +66,7 @@
         "deviceModel": "V2309A"
       }
 },
-{"key": "dr小鸡看看","name": "小鸡APP(py)","type":3,"api": "./PY/小鸡.py"},
+{"key": "d小鸡看看","name": "小鸡APP(py)","type":3,"api": "./py/小鸡.py"},
 {"key":"枫叶","name": "枫叶影视(py)","type": 3,"api": "./cat/枫叶.py","searchable": 1,"quickSearch": 1,
  "filterable": 1,"changeable": 1,"playable": 1
 },
