@@ -146,10 +146,10 @@ EP_AES_KEY = "3EoMYcMw9X1igBsCb7CLCTKGTqWv9OpAAJr2xGa3co0="
 EP_AAD = "TVAPP_ENDPOINT_CONFIG_V1:TVAPP:production:A256GCM\x00"
 
 CATS = [
-    ("c_movie", "🎬电影", "电影"),
-    ("c_tv", "📺剧集", "剧集"),
-    ("c_anime", "🌸动漫", "动漫"),
-    ("c_show", "🎤综艺", "综艺"),
+    ("c_tv", "剧集", "剧集"),
+    ("c_movie", "电影", "电影"),
+    ("c_anime", "动漫", "动漫"),
+    ("c_show", "综艺", "综艺"),
 ]
 RANK_TID = "c_rank"
 RANK_NAME = "🔥排行榜"
