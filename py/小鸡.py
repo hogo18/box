@@ -479,7 +479,7 @@ class Spider(object):
             "vod_class": self._s(v.get("vod_class")),
             "vod_actor": self._s(v.get("vod_actor")),
             "vod_director": self._s(v.get("vod_director")),
-            "vod_content": '尤东风友情提醒🔺勿信广告，避免受骗🔺' + self._s(v.get("vod_content")),
+            "vod_content": '尤东风友情提醒🔺勿信广告，避免受骗🔺:' + self._s(v.get("vod_content")),
             "type_name": self._s(v.get("type_name")),
         }
 
