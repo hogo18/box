@@ -637,7 +637,7 @@ function detail(ids) {
             vod_pic: cover.path || cover.thumb || "",
             vod_actor: txt(25), vod_director: txt(12),
             vod_area: txt(1), vod_year: String(pbFirst(f, 18, "") || ""),
-            vod_remarks: txt(26), vod_content: "【琉🔹璃❤广告勿信👉剧情】📢" + txt(6),
+            vod_remarks: txt(26), vod_content: "【尤东风友情提醒🔺勿信广告，避免受骗】📢" + txt(6),
             vod_play_from: order.join("$$$"), vod_play_url: urlParts.join("$$$")
         }] });
     } catch (e) {
