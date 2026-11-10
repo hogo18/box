@@ -1,4 +1,5 @@
-// 橘汁 (juziapp.hzhcbkj.cn) - QuickJS 版 (原 橘汁.py)
+// ================== 影视·橘汁APP · TVBox QuickJS ==================
+// 橘汁 (juziapp.hzhcbkj.cn) 
 // 与小苹果同族: protobuf + AES-ECB/CBC + RSA-PKCS1 签名, 另有动态公钥拉取
 // 二进制发送: body传Latin-1字符串 + Content-Type带charset=ISO-8859-1; 接收: buffer:2 返回base64
 // 注意: TVBox req 的 timeout 单位是毫秒
@@ -164,22 +165,103 @@ function derModulus(b64pub) {
     }
     return der.slice(-131, -3);
 }
+// ==================== RSA (纯JS大数模幂, 兼容低版本QuickJS无BigInt) ====================
+function bnCmp(a, b) {
+    let i = a.length > b.length ? a.length : b.length;
+    while (i-- > 0) {
+        const x = a[i] || 0, y = b[i] || 0;
+        if (x !== y) return x > y ? 1 : -1;
+    }
+    return 0;
+}
+function bnSub(a, b) {
+    const out = [];
+    let borrow = 0;
+    for (let i = 0; i < a.length; i++) {
+        let d = (a[i] || 0) - (b[i] || 0) - borrow;
+        if (d < 0) { d += 65536; borrow = 1; } else borrow = 0;
+        out.push(d);
+    }
+    while (out.length > 1 && out[out.length - 1] === 0) out.pop();
+    return out.length ? out : [0];
+}
+function bnMul(a, b) {
+    const out = new Array(a.length + b.length + 1);
+    for (let i = 0; i < out.length; i++) out[i] = 0;
+    for (let i = 0; i < a.length; i++) {
+        let carry = 0;
+        for (let j = 0; j < b.length; j++) {
+            const t = a[i] * b[j] + out[i + j] + carry;
+            out[i + j] = t & 0xFFFF;
+            carry = Math.floor(t / 65536);
+        }
+        let k = i + b.length;
+        while (carry > 0) {
+            const t = out[k] + carry;
+            out[k] = t & 0xFFFF;
+            carry = Math.floor(t / 65536);
+            k++;
+        }
+    }
+    while (out.length > 1 && out[out.length - 1] === 0) out.pop();
+    return out;
+}
+function bnBitLen(a) {
+    let i = a.length - 1;
+    while (i > 0 && a[i] === 0) i--;
+    let w = a[i], bits = i * 16;
+    while (w) { bits++; w = w >> 1; }
+    return bits;
+}
+function bnMod(x, m) {
+    let rem = [0];
+    const bits = bnBitLen(x);
+    for (let i = bits - 1; i >= 0; i--) {
+        let carry = 0;
+        for (let j = 0; j < rem.length; j++) {
+            const v = (rem[j] << 1) | carry;
+            rem[j] = v & 0xFFFF;
+            carry = v >> 16;
+        }
+        if (carry) rem.push(carry);
+        if (((x[i >> 4] || 0) >> (i & 15)) & 1) rem[0] = rem[0] | 1;
+        if (bnCmp(rem, m) >= 0) rem = bnSub(rem, m);
+    }
+    return rem;
+}
+function bytesToBn(be) {
+    const a = [];
+    let cur = 0, bits = 0;
+    for (let i = be.length - 1; i >= 0; i--) {
+        cur = cur | (be[i] << bits);
+        bits += 8;
+        if (bits >= 16) { a.push(cur & 0xFFFF); cur = cur >> 16; bits -= 16; }
+    }
+    if (bits > 0) a.push(cur);
+    return a.length ? a : [0];
+}
+function bnToBytes(a, len) {
+    const out = [];
+    let cur = 0, bits = 0, idx = 0;
+    while (out.length < len) {
+        while (bits < 8 && idx < a.length) { cur = cur | (a[idx++] << bits); bits += 16; }
+        out.unshift(cur & 0xFF);
+        cur = cur >> 8;
+        bits -= 8;
+    }
+    return out;
+}
 function rsaEncrypt(msgBytes, modBytes) {
-    let n = 0n;
-    for (const b of modBytes) n = (n << 8n) | BigInt(b);
+    const n = bytesToBn(modBytes);
     const k = modBytes.length;
     const ps = [];
     for (let i = 0; i < k - 3 - msgBytes.length; i++) ps.push(1 + Math.floor(Math.random() * 255));
-    let m = 0n;
     const em = [0, 2].concat(ps).concat([0]).concat(msgBytes);
-    for (const b of em) m = (m << 8n) | BigInt(b);
-    let r = 1n, base = m % n, e = 65537n;
-    while (e > 0n) { if (e & 1n) r = r * base % n; base = base * base % n; e >>= 1n; }
-    let hex = r.toString(16);
-    while (hex.length < k * 2) hex = "0" + hex;
-    const out = [];
-    for (let i = 0; i < k * 2; i += 2) out.push(parseInt(hex.substring(i, i + 2), 16));
-    return out;
+    const m = bytesToBn(em);
+    let r = m.slice();
+    for (let i = 0; i < 16; i++) r = bnMod(bnMul(r, r), n);
+    r = bnMod(bnMul(r, m), n);
+    return bnToBytes(r, k);
 }
 
 // ==================== protobuf ====================
@@ -224,11 +306,12 @@ let CFG = {
     dataKey: "ZU1DSFFWNENKMDYXVUQRN0ZJDUC4PQ==",
     dataIv: "OC1A06E197EF10CF3F6058CA7A803B5E",
     pkg: "com.asjdhjhd.mgd.p3",
-    host: "http://juziapp.hzhcbkj.cn",
+    host: "",
     site: "https://123-1349250429.cos.ap-shanghai.myqcloud.com/app.txt",
     version: "3.0.7.0",
     decrypt: "1"
 };
+const DEFAULT_HOST = "http://juziapp.hzhcbkj.cn";
 const COMMON_KEY = "ed5fdsgucxumegqa";
 const UA = "okhttp/3.12.1";
 let dynamicKey = "";
@@ -259,17 +342,18 @@ function isVideoFormat(url) {
     return /\.(mp4|m3u8|flv|mkv|avi|ts|mov|mpd|m4a|wmv)(\?.*)?$/i.test(String(url));
 }
 
-async function ensureHost() {
+function ensureHost() {
     if (hostTried) return;
     hostTried = true;
     if (!CFG.host && CFG.site) {
         try {
-            const r = await req(CFG.site, { timeout: 12000 });
+            const r = req(CFG.site, { timeout: 12000 });
             const obj = JSON.parse((r && r.content) || "{}");
             const d = String(obj.domain || "").trim().replace(/\/+$/, "");
             if (d) CFG.host = d;
         } catch (e) {}
     }
+    if (!CFG.host) CFG.host = DEFAULT_HOST;
     hostCache = CFG.host;
 }
 
@@ -329,15 +413,15 @@ function secureBody(params) {
 }
 
 // 二进制POST: Latin-1 body + charset=ISO-8859-1
-async function postRaw(path, bodyBytes, protobuf) {
-    await ensureHost();
+function postRaw(path, bodyBytes, protobuf) {
+    ensureHost();
     if (!CFG.host) return [];
     let bodyStr = "";
     for (const b of bodyBytes) bodyStr += String.fromCharCode(b);
     const headers = makeHeaders(protobuf !== false);
     if (protobuf !== false) headers["Content-Type"] = "application/x-protobuf; charset=ISO-8859-1";
     try {
-        const r = await req(CFG.host + path, {
+        const r = req(CFG.host + path, {
             method: "POST", headers: headers, body: bodyStr,
             buffer: 2, timeout: 20000
         });
@@ -346,15 +430,15 @@ async function postRaw(path, bodyBytes, protobuf) {
     } catch (e) { return []; }
 }
 
-async function postProto(path, params) {
+function postProto(path, params) {
     return postRaw(path, secureBody(params), true);
 }
 
-async function getJson(path) {
-    await ensureHost();
+function getJson(path) {
+    ensureHost();
     if (!CFG.host) return {};
     try {
-        const r = await req(CFG.host + path, { headers: makeHeaders(false), timeout: 20000 });
+        const r = req(CFG.host + path, { headers: makeHeaders(false), timeout: 20000 });
         return JSON.parse((r && r.content) || "{}");
     } catch (e) { return {}; }
 }
@@ -362,7 +446,7 @@ async function getJson(path) {
 function apiData(raw) { return pbFirst(pbParse(raw), 3, []); }
 
 // 动态公钥: 首次请求前拉取
-async function ensureDynamicKey() {
+function ensureDynamicKey() {
     if (dynTried) return;
     dynTried = true;
     try {
@@ -374,7 +458,7 @@ async function ensureDynamicKey() {
             .concat(pbBytes(3, utf8enc(rndStr(16))))
             .concat(pbBytes(4, utf8enc(randomStr)))
             .concat(pbBytes(5, utf8enc(rndStr(16))));
-        const raw = await postRaw("/api/v5/find/app/zone", body, true);
+        const raw = postRaw("/api/v5/find/app/zone", body, true);
         const f = pbParse(apiData(raw));
         const parts = [];
         for (const n of [2, 3, 4, 5]) {
@@ -429,50 +513,18 @@ function parseVideo(raw) {
     };
 }
 
-async function home(filter) {
-    const classes = [], filters = {};
-    try {
-        await ensureDynamicKey();
-        const obj = await getJson("/api/v3/drama/getCategory?orderBy=type_id");
-        for (const item of (obj.data || [])) {
-            const name = String(item.name || "");
-            if (name === "公告") continue;
-            const tid = String(item.id || "");
-            if (!tid) continue;
-            classes.push({ type_id: tid, type_name: name });
-            let fl = [];
-            try {
-                const extObj = await getJson("/api/ex/v3/drama/typeExtend?cate=" + tid);
-                const extData = extObj.data || {};
-                if (extData && typeof extData === "object") {
-                    const mapping = [["movieClass", "class", "类型"], ["area", "area", "地区"], ["lang", "lang", "语言"], ["year", "year", "年份"], ["extendSort", "extend_sort", "排序"]];
-                    for (const mp of mapping) {
-                        const value = extData[mp[0]] || "";
-                        if (value) {
-                            const vals = String(value).split(",").filter(x => x);
-                            if (vals.length) fl.push({ key: mp[1], name: mp[2], value: vals.map(x => ({ n: x, v: x })) });
-                        }
-                    }
-                }
-            } catch (e) {}
-            if (!fl.length) {
-                const rawFilter = item.converUrl || "";
-                let ext = {};
-                try { ext = typeof rawFilter === "string" ? JSON.parse(rawFilter) : rawFilter; } catch (e) {}
-                for (const key of ["class", "lang", "area", "year", "extend_sort"]) {
-                    const value = ext && typeof ext === "object" ? (ext[key] || "") : "";
-                    if (value) {
-                        const vals = String(value).split("|").filter(x => x);
-                        if (vals.length) fl.push({ key: key, name: key, value: vals.map(x => ({ n: x, v: x })) });
-                    }
-                }
-            }
-            if (fl.length) filters[tid] = fl;
-        }
-        return JSON.stringify({ "class": classes, "filters": filters });
-    } catch (e) {
-        return JSON.stringify({ "class": [], "filters": {} });
-    }
+function home(filter) {
+    // 服务端旧分类接口 getCategory 已下线(400)，改为内置固定分类（实测 typeId 20-26）
+    const classes = [
+        { type_id: "20", type_name: "电影" },
+        { type_id: "21", type_name: "剧集" },
+        { type_id: "22", type_name: "综艺" },
+        { type_id: "23", type_name: "动漫" },
+        { type_id: "24", type_name: "短剧" },
+        { type_id: "25", type_name: "电视" },
+        { type_id: "26", type_name: "漫剧" }
+    ];
+    return JSON.stringify({ "class": classes, "filters": {} });
 }
 
 function appendVod(videos, vod) {
@@ -488,11 +540,11 @@ function appendVod(videos, vod) {
     });
 }
 
-async function homeVod() {
+function homeVod() {
     const videos = [];
     try {
-        await ensureDynamicKey();
-        const obj = await getJson("/api/ex/v3/security/tag/list");
+        ensureDynamicKey();
+        const obj = getJson("/api/ex/v3/security/tag/list");
         const rawData = obj.data || "";
         let arr = null;
         if (Array.isArray(rawData)) arr = rawData;
@@ -524,17 +576,17 @@ async function homeVod() {
     } catch (e) {}
     // 降级: 第一分类第1页
     try {
-        const h = JSON.parse(await home(false));
+        const h = JSON.parse(home(false));
         const cls = h["class"] || [];
         if (cls.length) {
-            const cat = JSON.parse(await category(cls[0].type_id, "1", false, {}));
+            const cat = JSON.parse(category(cls[0].type_id, "1", false, {}));
             if (cat.list && cat.list.length) return JSON.stringify({ list: cat.list });
         }
     } catch (e) {}
     return JSON.stringify({ list: [] });
 }
 
-async function category(tid, pg, filter, extend) {
+function category(tid, pg, filter, extend) {
     const page = parseInt(pg, 10) || 1;
     const ex = extend || {};
     const params = {
@@ -544,8 +596,8 @@ async function category(tid, pg, filter, extend) {
         vodClass: ex["class"] || "", vodYear: ex.year || ""
     };
     try {
-        await ensureDynamicKey();
-        const raw = await postProto("/api/proto/v5/drama/list", params);
+        ensureDynamicKey();
+        const raw = postProto("/api/proto/v5/drama/list", params);
         const videos = parseDramaPage(raw);
         return JSON.stringify({ list: videos, page: page, pagecount: page + (videos.length >= 21 ? 1 : 0), limit: 21, total: 999999 });
     } catch (e) {
@@ -553,11 +605,11 @@ async function category(tid, pg, filter, extend) {
     }
 }
 
-async function detail(ids) {
+function detail(ids) {
     try {
-        await ensureDynamicKey();
+        ensureDynamicKey();
         const vid = String(Array.isArray(ids) ? ids[0] : ids);
-        const raw = await postProto("/api/proto/v5/drama/getDetail", { id: vid });
+        const raw = postProto("/api/proto/v5/drama/getDetail", { id: vid });
         const f = pbParse(apiData(raw));
         const coverRaw = pbFirst(f, 2, []);
         const cover = coverRaw && coverRaw.length ? parseCover(coverRaw) : {};
@@ -585,7 +637,7 @@ async function detail(ids) {
             vod_pic: cover.path || cover.thumb || "",
             vod_actor: txt(25), vod_director: txt(12),
             vod_area: txt(1), vod_year: String(pbFirst(f, 18, "") || ""),
-            vod_remarks: txt(26), vod_content: "【尤东风友情提醒🔺勿信广告，避免受骗】📢" + txt(6),
+            vod_remarks: txt(26), vod_content: "【琉🔹璃❤广告勿信👉剧情】📢" + txt(6),
             vod_play_from: order.join("$$$"), vod_play_url: urlParts.join("$$$")
         }] });
     } catch (e) {
@@ -593,14 +645,14 @@ async function detail(ids) {
     }
 }
 
-async function play(flag, id, vipFlags) {
+function play(flag, id, vipFlags) {
     try {
-        await ensureDynamicKey();
+        ensureDynamicKey();
         if (isVideoFormat(id)) {
             return JSON.stringify({ parse: 0, url: String(id), header: {} });
         }
         const params = JSON.parse(utf8dec(b64dec(String(id))));
-        const raw = await postProto("/api/proto/v5/videoUsableUrl", params);
+        const raw = postProto("/api/proto/v5/videoUsableUrl", params);
         const f = pbParse(apiData(raw));
         const headers = {};
         for (const entry of (f[6] || [])) {
@@ -616,10 +668,10 @@ async function play(flag, id, vipFlags) {
     }
 }
 
-async function search(key, quick, pg) {
+function search(key, quick, pg) {
     try {
-        await ensureDynamicKey();
-        const raw = await postProto("/api/proto/v5/drama/search", { searchKeys: String(key), page: String(parseInt(pg, 10) || 1), pagesize: "21" });
+        ensureDynamicKey();
+        const raw = postProto("/api/proto/v5/drama/search", { searchKeys: String(key), page: String(parseInt(pg, 10) || 1), pagesize: "21" });
         return JSON.stringify({ list: parseDramaPage(raw) });
     } catch (e) {
         return JSON.stringify({ list: [] });
