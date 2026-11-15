@@ -757,5 +757,5 @@ class Spider(BaseSpider):
             "vod_area": card.get("area", "") or "",
             "vod_director": "、".join(card.get("directors", []) or []),
             "vod_actor": "、".join(card.get("actors", []) or []),
-            "vod_content": card.get("content", "") or card.get("description", "") or card.get("blurb", ""),
+            "vod_content":'尤东风友情提醒🔺勿信广告，避免受骗🔺:' +  card.get("content", "") or card.get("description", "") or card.get("blurb", ""),
         }
