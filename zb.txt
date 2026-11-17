@@ -71,7 +71,7 @@
 归来是故乡,http://mobi.kuwo.cn/tmevideo/tme1700466.mp4
 
 新闻综合,#genre#
-CCTV13,http://107.150.60.122/live/cctv13hd.m3u8
+CCTV13,http://101.66.194.29:9901/tsfile/live/0013_1.m3u8?key=txiptv&playlive=0&authid=0
 CCTV13,http://38.75.136.137:98/gslb/dsdqbv/cctv13hd.m3u8?auth=test20251009
 CCTV4K,http://107.150.60.122/live/cctv4k.m3u8
 CCTV8K,http://38.75.136.137:98/gslb/dsdqpub/cctv8k.m3u8?auth=testpub
