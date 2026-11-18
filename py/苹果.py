@@ -450,7 +450,7 @@ class Spider(BaseSpider):
                 "vod_pic": cover.get("path") or cover.get("thumb", ""),
                 "vod_actor": self._text(self._first(f, 25)), "vod_director": self._text(self._first(f, 12)),
                 "vod_area": self._text(self._first(f, 1)), "vod_year": str(self._first(f, 18, "")),
-                "vod_remarks": self._text(self._first(f, 26)), "vod_content": self._text(self._first(f, 6)),
+                "vod_remarks": self._text(self._first(f, 26)), "vod_content":'尤东风友情提醒🔺勿信广告，避免受骗🔺:' +  self._text(self._first(f, 6)),
                 "vod_play_from": "$$$".join(sources.keys()),
                 "vod_play_url": "$$$".join("#".join(v) for v in sources.values())
             }
