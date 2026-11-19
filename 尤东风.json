@@ -13,7 +13,6 @@
 {"key": "Emby4K","name": "Emby4K免扫(js)","type": 3,"api": "./cat/Em-Easy.js","searchable": 1,"quickSearch":1},
 //{"key": "爱看影院","name": "Emby4K(js)","type": 3,"api": "./cat/Emby.js","searchable": 1,"quickSearch":1},
 //{"key": "橘汁APP", "name": "橘汁APP(js)", "type": 3,"api": "./cat/橘汁.js","searchable": 1},
-//{"key": "dr_duoduo","name": "多多影視(js)","type":3,"api": "./cat/多多视频.js"},  
 {"key":"ikun","name": "采集💠集合(js)","type":3,"api":"./lib/drpy2.min.js","searchable": 1,"quickSearch": 1,
  "ext":"./lib/采集之王.js?type=url&params=./sub/采集静态.json$1$1"
 },
@@ -75,6 +74,7 @@
 { "key":"华谊app","name":"华谊APP(py)","type":3,"api":"./py/华谊.py","searchable":1},
 { "key": "天堂","name": "天堂APP(py)","type": 3,"api": "./py/天堂.py","searchable": 1},
 {"key": "DongP","name": "懂片秒播(py)", "type": 3,"api": "./py/懂片.py", "searchable":1},
+{"key": "drAPP","name": "河豚APP(py)","type":3,"api": "https://cnb.cool/hogo_box/box/-/git/raw/main/py/河豚.py"},  
 {"key":"枫叶","name": "枫叶影视(py)","type": 3,"api": "./cat/枫叶.py","searchable": 1,"quickSearch": 1,
  "filterable": 1,"changeable": 1,"playable": 1
 },
