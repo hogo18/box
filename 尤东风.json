@@ -75,6 +75,7 @@
 { "key": "天堂","name": "天堂APP(py)","type": 3,"api": "./py/天堂.py","searchable": 1},
 {"key": "DongP","name": "懂片秒播(py)", "type": 3,"api": "./py/懂片.py", "searchable":1},
 {"key": "drAPP","name": "河豚APP(py)","type":3,"api": "https://cnb.cool/hogo_box/box/-/git/raw/main/py/河豚.py"},  
+{ "key":"MiNOapp","name":"米诺APP(py)","type":3,"api":"./py/MiNO.py","searchable":1},
 {"key":"枫叶","name": "枫叶影视(py)","type": 3,"api": "./cat/枫叶.py","searchable": 1,"quickSearch": 1,
  "filterable": 1,"changeable": 1,"playable": 1
 },
